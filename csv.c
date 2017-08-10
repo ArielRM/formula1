@@ -2,26 +2,51 @@
 #include <stdlib.h>
 #include "csv.h"
 
-int getCSVFieldValue(FILE *file, unsigned int record, unsigned int field, unsigned int maxValue, char *buffer)
+char* getCSVFieldValue(FILE *file, unsigned int record, unsigned int field, unsigned int maxValueSize, char *str)
 {
 	for(unsigned int i = 0; i < record; i++)
 	{
-		if(fscanf(file,"%*[^\n]s\n")!=0)
-			return(-1);
+		if(fscanf(file,"%*[^\n]s")!=0)
+			return(NULL);
+		fgetc(file);
 	}
 	for(unsigned int i = 0; i < field; i++)
 	{
-		if(fscanf(file,"%*[^\n;]s%*[;\n]c")!=0)
-			return(-2);
+		if(fscanf(file,"%*[^\n;]s;")!=0)
+			return(NULL);
+		fgetc(file);
 	}
-	unsigned int i = 0;
-	for(i = 0; i < maxValue; i++)
-	{
-		if(fscanf(file,"%[^;\n]c",&(buffer[i])) != 1)
-		{
-			buffer[i] = '\0';
-			break;
-		}
-	}
-	return(i);
+	char buffer[maxValueSize];
+	fgets(buffer,maxValueSize,file);
+	rewind(file);
+	if(sscanf(buffer,"%[^;\n]s",str) != 1)
+		return(NULL);
+	return(str);
 }
+void getCSVInfo(FILE *file,unsigned int *records, unsigned int *fieldPerRecord, unsigned int *maxFieldSize) 
+{
+	*records = 0;
+	*fieldPerRecord = 0;
+	*maxFieldSize = 0;
+	
+	unsigned int currentFieldSize = 0;
+	char hold;
+	while(fscanf(file,"%c",&hold) == 1)
+	{
+		if(hold == ';' || hold == '\n')
+		{
+			currentFieldSize++;
+			if(*records == 0)
+				(*fieldPerRecord)++;
+			if(hold == '\n')
+				(*records)++;
+			if(currentFieldSize > *maxFieldSize)
+				*maxFieldSize = currentFieldSize;
+			currentFieldSize = 0;
+		}
+		else
+			currentFieldSize++;
+	}
+	rewind(file);
+}
+	
