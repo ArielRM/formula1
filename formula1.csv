@@ -1,4 +1,4 @@
-Season;Country;;Age;Car No.;Team;Engine;Tyres;Poles;Wins;Podiums;Fastest Laps;Points;Clinched;Race;Point Margin
+Season;Country;Driver;Age;Car No.;Team;Engine;Tyres;Poles;Wins;Podiums;Fastest Laps;Points;Clinched;Race;Point Margin
 1950;Italy;Giuseppe Farina;44;-1;Italy Alfa Romeo;Alfa Romeo;P;2;3;3;3;30;Race 7 of 7;Italian Grand Prix;3
 1951;Argentina;Juan Manuel Fangio;40;-1;Italy Alfa Romeo;Alfa Romeo;P;4;3;5;5;31;Race 8 of 8;Spanish Grand Prix;6
 1952;Italy;Alberto Ascari;34;-1;Italy Ferrari;Ferrari;F P;5;6;6;6;36;Race 6 of 8;German Grand Prix;12
